@@ -40,7 +40,7 @@ services:
       - "3306"
 
   vtctld:
-    image: vitess/lite:v19.0.5
+    image: vitess/lite:v20.0.0
     ports:
       - "15000:$WEB_PORT"
       - "$GRPC_PORT"
@@ -61,7 +61,7 @@ services:
 #        condition: service_healthy
 
   vtgate:
-    image: vitess/lite:v19.0.5
+    image: vitess/lite:v20.0.0
     ports:
       - "15099:$WEB_PORT"
       - "$GRPC_PORT"
@@ -91,7 +91,7 @@ services:
         #condition: service_healthy
 
   schemaload:
-    image: vitess/lite:v19.0.5
+    image: vitess/lite:v20.0.0
     command:
     - sh
     - -c
@@ -124,12 +124,12 @@ services:
     environment:
       - KEYSPACES=$KEYSPACE
       - GRPC_PORT=15999
-    image: vitess/lite:v19.0.5
+    image: vitess/lite:v20.0.0
     volumes:
       - .:/script
 
   vttablet100:
-    image: vitess/lite:v19.0.5
+    image: vitess/lite:v20.0.0
     ports:
       - "15100:$WEB_PORT"
       - "$GRPC_PORT"
@@ -162,7 +162,7 @@ services:
       retries: 15
 
   vttablet101:
-    image: vitess/lite:v19.0.5
+    image: vitess/lite:v20.0.0
     ports:
       - "15101:$WEB_PORT"
       - "$GRPC_PORT"
@@ -194,7 +194,7 @@ services:
       retries: 15
 
   vttablet102:
-    image: vitess/lite:v19.0.5
+    image: vitess/lite:v20.0.0
     ports:
       - "15102:$WEB_PORT"
       - "$GRPC_PORT"
@@ -226,7 +226,7 @@ services:
       retries: 15
 
   vttablet103:
-    image: vitess/lite:v19.0.5
+    image: vitess/lite:v20.0.0
     ports:
       - "15103:$WEB_PORT"
       - "$GRPC_PORT"
@@ -258,7 +258,7 @@ services:
       retries: 15
 
   vtorc:
-    image: vitess/lite:v19.0.5
+    image: vitess/lite:v20.0.0
     command: ["sh", "-c", "/script/vtorc-up.sh"]
     depends_on:
       - vtctld
@@ -288,7 +288,7 @@ services:
       retries: 15
 
   vreplication:
-    image: vitess/lite:v19.0.5
+    image: vitess/lite:v20.0.0
     volumes:
       - ".:/script"
     environment:
