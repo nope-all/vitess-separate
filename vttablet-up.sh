@@ -43,7 +43,7 @@ printf -v tablet_dir 'vt_%010d' $uid
 
 tablet_role=$role
 tablet_type='replica'
-tablet_role='externalprimary'
+#tablet_role='externalprimary'
 # Make every 3rd tablet rdonly
 if (( $uid % 100 % 3 == 0 )) ; then
     tablet_type='rdonly'

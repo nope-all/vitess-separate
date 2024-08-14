@@ -1,3 +1,5 @@
+SET @original_super_read_only=IF(@@global.super_read_only=1, 'ON', 'OFF');
+SET GLOBAL super_read_only='OFF';
 ###############################################################################
 # Vitess defaults
 ###############################################################################
@@ -74,5 +76,3 @@ LOAD DATA LOCAL INFILE '/docker-entrypoint-initdb.d/dataset.csv' INTO TABLE user
 
 ALTER TABLE users ADD id INT NOT NULL AUTO_INCREMENT PRIMARY KEY;
 
-# We need to set super_read_only back to what it was before
-SET GLOBAL super_read_only=IFNULL(@original_super_read_only, 'ON');

@@ -21,9 +21,9 @@ services:
       MYSQL_DATABASE: ${DB:-commerce}
       MYSQL_USER: ${DB_USER:-external_db_user}
       MYSQL_PASSWORD: ${DB_PASS:-external_db_password}
-    volumes:
-      - ./external_db/mysql/:/docker-entrypoint-initdb.d/
-      - ./external_db/mysql/log:/var/log/mysql
+#    volumes:
+#      - ./external_db/mysql/:/docker-entrypoint-initdb.d/
+#      - ./external_db/mysql/log:/var/log/mysql
     command:
       - --server-id=1
       - --log-bin=mysql-bin
@@ -184,7 +184,7 @@ services:
       - DB_PASS
       - DB_CHARSET
       - ROLE=primary
-    command: ["sh", "-c", "[ $$EXTERNAL_DB -eq 1 ] && /script/vttablet-up.sh 101"]
+    command: ["sh", "-c", "/script/vttablet-up.sh 101"]
     depends_on:
       - vtctld
     healthcheck:
@@ -310,7 +310,7 @@ services:
 
   vtadmin:
     image: nauvalh/vtadmin:v20.0.0
-    hostname: 103.186.1.45
+    hostname: 103.186.1.99
     ports:
       - "14200:14200"
       - "14201:14201"
