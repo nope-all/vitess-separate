@@ -160,4 +160,6 @@ exec $VTROOT/bin/vttablet \
   --backup_storage_implementation file \
   --file_backup_storage_root $VTDATAROOT/backups \
   --queryserver-config-schema-reload-time 60s \
+  --queryserver-config-query-timeout 3600s \
+  --queryserver-config-transaction-timeout 3600s \
   $external_db_args
