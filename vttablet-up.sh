@@ -65,13 +65,13 @@ sed -i '/##\[CUSTOM_SQL/{:a;N;/END\]##/!ba};//d' $init_db_sql_file
 
 echo "##[CUSTOM_SQL_START]##" >> $init_db_sql_file
 
-if [ "$external" = "1" ]; then
+#if [ "$external" = "1" ]; then
   # We need a common user for the unmanaged and managed tablets else tools like orchestrator will not function correctly
-  echo "Creating matching user for managed tablets..."
-  echo "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PASS';" >> $init_db_sql_file
-  echo "GRANT ALL ON *.* TO '$DB_USER'@'%';" >> $init_db_sql_file
-fi
-echo "##[CUSTOM_SQL_END]##" >> $init_db_sql_file
+echo "Creating matching user for managed tablets..."
+echo "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PASS';" >> $init_db_sql_file
+echo "GRANT ALL ON *.* TO '$DB_USER'@'%';" >> $init_db_sql_file
+#fi
+#echo "##[CUSTOM_SQL_END]##" >> $init_db_sql_file
 
 echo "##[CUSTOM_SQL_END]##" >> $init_db_sql_file
 
@@ -134,7 +134,6 @@ if [ $tablet_role = "externalprimary" ]; then
                       --enable_replication_reporter=false \
                       --enforce_strict_trans_tables=false \
                       --track_schema_versions=true \
-                      --vreplication_tablet_type=primary \
                       --watch_replication_stream=true"
 else
     external_db_args="--init_db_name_override $DB_NAME \
@@ -162,4 +161,6 @@ exec $VTROOT/bin/vttablet \
   --queryserver-config-schema-reload-time 60s \
   --queryserver-config-query-timeout 3600s \
   --queryserver-config-transaction-timeout 3600s \
+  --queryserver-enable-views \
+  --queryserver-config-max-result-size 1000000 \
   $external_db_args
