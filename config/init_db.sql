@@ -71,6 +71,8 @@ GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, PROCESS, FILE,
 
 # custom sql is used to add custom scripts like creating users/passwords. We use it in our tests
 # {{custom_sql}}
+CREATE USER 'vitess'@'%' IDENTIFIED BY 'vitesscoyy';
+GRANT ALL ON *.* TO 'vitess'@'%';
 
 # We need to set super_read_only back to what it was before
 SET GLOBAL super_read_only=IFNULL(@original_super_read_only, 'ON');
