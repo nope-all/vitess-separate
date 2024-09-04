@@ -153,6 +153,7 @@ exec $VTROOT/bin/vttablet \
   --disable_active_reparents=true \
   --port $web_port \
   --grpc_port $grpc_port \
+  --grpc_max_message_size 104857600 \
   --service_map 'grpc-queryservice,grpc-tabletmanager,grpc-updatestream' \
   --init_keyspace $keyspace \
   --init_shard $shard \

@@ -42,6 +42,7 @@ services:
         --file_backup_storage_root /vt/vtdataroot/backups \
         --logtostderr=true \
         --port $WEB_PORT \
+        --grpc_max_message_size 104857600 \
         --grpc_port $GRPC_PORT
         "]
     depends_on:
@@ -71,7 +72,10 @@ services:
         --cells_to_watch $CELL \
         --tablet_types_to_wait PRIMARY,REPLICA \
         --service_map 'grpc-vtgateservice' \
+        --enable-views \
         --enable_system_settings=true \
+        --max_memory_rows 1000000 \
+        --grpc_max_message_size 104857600 \
         "]
     volumes:
       - ".:/script"
@@ -131,6 +135,7 @@ services:
     volumes:
       - ".:/script"
       - "./backups:/vt/vtdataroot/backups"
+      - "vttablet101-data:/vt/vtdataroot"
     environment:
       - TOPOLOGY_FLAGS
       - WEB_PORT
@@ -163,6 +168,7 @@ services:
     volumes:
       - ".:/script"
       - "./backups:/vt/vtdataroot/backups"
+      - "vttablet102-data:/vt/vtdataroot"
     environment:
       - TOPOLOGY_FLAGS
       - WEB_PORT
@@ -197,6 +203,7 @@ services:
     volumes:
       - ".:/script"
       - "./backups:/vt/vtdataroot/backups"
+      - "vttablet103-data:/vt/vtdataroot"
     environment:
       - TOPOLOGY_FLAGS
       - WEB_PORT
@@ -251,3 +258,8 @@ services:
       interval: 5s
       timeout: 10s
       retries: 15
+
+volumes:
+  vttablet101-data:
+  vttablet102-data:
+  vttablet103-data:
