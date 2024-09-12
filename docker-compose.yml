@@ -221,7 +221,7 @@ services:
     depends_on:
       vtctld:
         condition: service_started
-      vttablet101:
+      vttablet102:
         condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL","curl -s --fail --show-error localhost:15103/debug/health"]
