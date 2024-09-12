@@ -79,9 +79,9 @@ services:
         "]
     volumes:
       - ".:/script"
-    environment:
-      - KEYSPACE
-      - DB
+#    environment:
+#      - KEYSPACE=customer
+#      - DB
     depends_on:
       vtctld:
         condition: service_started
@@ -120,7 +120,7 @@ services:
     depends_on:
       - vttablet101
     environment:
-      - KEYSPACES=$KEYSPACE
+      - KEYSPACES=commerce customer
       - GRPC_PORT=15999
     image: vitess/lite:v20.0.1
     volumes:
@@ -229,6 +229,39 @@ services:
       timeout: 10s
       retries: 15
 
+  vttablet201:
+    image: vitess/lite:v20.0.1
+    ports:
+      - "15201:15201"
+      - "$GRPC_PORT"
+      - "3306"
+    volumes:
+      - ".:/script"
+      - "./backups:/vt/vtdataroot/backups"
+      - "vttablet201-data:/vt/vtdataroot"
+    environment:
+      - TOPOLOGY_FLAGS
+      - WEB_PORT
+      - GRPC_PORT
+      - CELL
+      - KEYSPACE=customer
+      - DB
+      - EXTERNAL_DB
+      - DB_PORT
+      - DB_HOST
+      - DB_USER
+      - DB_PASS
+      - DB_CHARSET
+      - ROLE=primary
+    command: ["sh", "-c", "/script/vttablet-up.sh 201"]
+    depends_on:
+      - vtctld
+    healthcheck:
+      test: ["CMD-SHELL","curl -s --fail --show-error localhost:15201/debug/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 15
+
   vtorc:
     image: vitess/lite:v20.0.1
     command: ["sh", "-c", "/script/vtorc-up.sh"]
@@ -245,7 +278,7 @@ services:
       - WEB_PORT
       - GRPC_PORT
       - CELL
-      - KEYSPACE
+#      - KEYSPACE=customer
       - DB
       - EXTERNAL_DB
       - DB_PORT
@@ -263,3 +296,4 @@ volumes:
   vttablet101-data:
   vttablet102-data:
   vttablet103-data:
+  vttablet201-data:
